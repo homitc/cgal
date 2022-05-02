@@ -11,7 +11,7 @@ jobs:
     - name: configure all
       run: cmake -DWITH_examples=ON -DWITH_tests=ON -DWITH_demos=ON .
     
-    - name: Rich Code Nav Indexer
+    - name: Rich Code Nav
       uses: microsoft/RichCodeNavIndexer@v0.1.16
       with:
         repo-token: ${{ github.token }}
