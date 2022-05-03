@@ -38,8 +38,8 @@ jobs:
         mkdir build && cd build && CXX=clang++ cmake -DWITH_examples=ON -DWITH_tests=ON -DWITH_demos=ON -DBUILD_TESTING=ON -DCMAKE_EXPORT_COMPILE_COMMANDS=ON ..
         ctest -L Installation -j $(getconf _NPROCESSORS_ONLN)
     
-    - uses: microsoft/RichCodeNavIndexer@v0.1.16
     - name: Rich Code Nav
+      uses: microsoft/RichCodeNavIndexer@v0.1.16
       with:
         repo-token: ${{ github.token }}
         languages: cpp
