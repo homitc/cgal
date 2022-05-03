@@ -5,7 +5,7 @@ on: [push, pull_request]
 jobs:
   build:
 
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
     
     steps:
     - uses: actions/checkout@v2.0.0
@@ -27,4 +27,19 @@ jobs:
         zsh Scripts/developer_scripts/test_merge_of_branch HEAD
         #test dependencies
         bash Scripts/developer_scripts/cgal_check_dependencies.sh --check_headers /usr/bin/doxygen
+        
+    - uses: actions/checkout@v2.0.0
+    - name: install dependencies
+      run: sudo apt-get install -y libboost-dev libboost-program-options-dev libmpfr-dev libeigen3-dev
+    - name: configure all
+      run: |
+        set -e
+        mkdir build && cd build && CXX=clang++ cmake -DWITH_examples=ON -DWITH_tests=ON -DWITH_demos=ON -DBUILD_TESTING=ON -DCMAKE_EXPORT_COMPILE_COMMANDS=ON ..
+        ctest -L Installation -j $(getconf _NPROCESSORS_ONLN)
+    
+    - name: Rich Code Nav
+    - uses: microsoft/RichCodeNavIndexer@v0.1.16
+      with:
+        repo-token: ${{ github.token }}
+        languages: cpp
 
